@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{760BF8F9-C8DD-4A85-9F5B-EE96CFEECBE1}|MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical.vcxproj|C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{760BF8F9-C8DD-4A85-9F5B-EE96CFEECBE1}|MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical.vcxproj|solutionrelative:MoGraLab3OneButtonPractical\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\main.cpp",
+              "RelativeDocumentMoniker": "MoGraLab3OneButtonPractical\\main.cpp",
+              "ToolTip": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\main.cpp",
+              "RelativeToolTip": "MoGraLab3OneButtonPractical\\main.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACIAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-10T10:16:36.951Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
