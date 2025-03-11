@@ -1,5 +1,11 @@
 // platform game..... 
-// Author :Noel O' Hara 
+// Author : Robert McGregor
+
+// sf::RectangleShape cloudShape;
+//cloudShape.setSize(sf::Vector2f(64, 32));
+//cloudShape.setPosition(14.0f * 32.0f, 13.0f * 32.0f); // 14 * 64, 14 * 64);
+//cloudShape.setFillColor(sf::Color(200, 200, 200, 255));
+// level[row][col].move(cloudMoveSpeedX, 0.0f);
 
 #ifdef _DEBUG  
 
@@ -23,114 +29,140 @@
 #include <iostream> 
 #include <time.h>  
 
+sf::Font fontSilkScreen;
+sf::Text textLevelComplete; // text used for message on screen
+
+const float SCREEN_WIDTH = 800;
+const float SCREEN_HEIGHT = 600;
+
+bool levelComplete = false;
+
 class Game
 {
 public:
-
 	//create Window 
-
 	sf::RenderWindow window;
 	sf::View view;
 	float randomNum;
 
+	float moveXSpeed = -4.0f;
+	const float moveXSpeedDefault = -4.0f;
+	float moveYSpeed = 0.05f;
+
+	float cloudMoveSpeedX = -1.25f;
+
+	float counterTurnMax = 20.0f;
+	float counterTurnCur = 0.0f;
+
 	sf::RectangleShape playerShape;
 
+	sf::RectangleShape sunShape;
+
 	float velocityX = 0, velocityY = 0, gravity = 0.3;
+	float jumpVelocity = -8.0f;
 
 	static const int numRows = 20;
 
 	static const int numCols = 40;
 
 	int levelData[numRows][numCols] =
-
 	{
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
+	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,3,3,3,3,0 },
+	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0 },
+	{ 0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,6,6,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
+	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 4,1,1,1,5,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,5,0,0,1,1,1,4,1 },
+	{ 1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,4 },
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
-	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
-	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
-	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
-	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
-	{ 0,0,0,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
-	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-
-	{ 1,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,1 },
-
 	 };
 
 	sf::RectangleShape level[numRows][numCols];
 
 	Game()
 	{
-		window.create(sf::VideoMode(800, 600), "Endless Runner Game");
+		window.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Endless Runner Game");
 	}
 
 	void init()
 	{
+		moveXSpeed = moveXSpeedDefault;
+
 		view = window.getDefaultView();
 
 		playerShape.setSize(sf::Vector2f(20, 20));
 
-		playerShape.setPosition(160, 500);
+		playerShape.setPosition(SCREEN_WIDTH * 0.5f, 475.0f); //(160, 500);
+
+		playerShape.setFillColor(sf::Color::Blue);
+
+		sunShape.setSize(sf::Vector2f(64, 64));
+		sunShape.setPosition(SCREEN_WIDTH * 0.75f, SCREEN_HEIGHT * 0.125f);
+		sunShape.setFillColor(sf::Color::Yellow);
 
 		for (int row = 0; row < numRows; row++)
 		{
 			for (int col = 0; col < numCols; col++)
 			{
-				if (levelData[row][col] == 1) // RED NEUTRAL BLOCK
+				if (levelData[row][col] == 1) // GREEN GROUND BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(70, 30));
+					level[row][col].setSize(sf::Vector2f(32, 32));
+					level[row][col].setPosition(col * 32, row * 32);
+					level[row][col].setFillColor(sf::Color::Green);
+				}
 
-					level[row][col].setPosition(col * 70, row * 30);
+				if (levelData[row][col] == 0) // SKY EMPTY BLOCK
+				{
+					level[row][col].setSize(sf::Vector2f(32, 32));
+					level[row][col].setPosition(col * 32, row * 32);
+					level[row][col].setFillColor(sf::Color(67, 130, 232));
+				}
 
+				if (levelData[row][col] == 2) // RED DEADLY BLOCK
+				{
+					level[row][col].setSize(sf::Vector2f(32, 32));
+					level[row][col].setPosition(col * 32, row * 32);
 					level[row][col].setFillColor(sf::Color::Red);
 				}
 
-				if (levelData[row][col] == 0) // BLACK EMPTY BLOCK
+				if (levelData[row][col] == 3) // GOLD GOAL BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(70, 30));
-
-					level[row][col].setPosition(col * 70, row * 30);
-
-					level[row][col].setFillColor(sf::Color::Black);
+					level[row][col].setSize(sf::Vector2f(32, 32));
+					level[row][col].setPosition(col * 32, row * 32);
+					level[row][col].setFillColor(sf::Color::Yellow);
 				}
 
-				if (levelData[row][col] == 2) // BLUE DEADLY BLOCK
+				if (levelData[row][col] == 4) // MAGENTA REVERSE BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(70, 30));
+					level[row][col].setSize(sf::Vector2f(32, 32));
+					level[row][col].setPosition(col * 32, row * 32);
+					level[row][col].setFillColor(sf::Color::Magenta);
+				}
 
-					level[row][col].setPosition(col * 70, row * 30);
+				if (levelData[row][col] == 5) // AQUA JUMP BLOCK
+				{
+					level[row][col].setSize(sf::Vector2f(32, 32));
+					level[row][col].setPosition(col * 32, row * 32);
+					level[row][col].setFillColor(sf::Color::Cyan);
+				}
 
-					level[row][col].setFillColor(sf::Color::Blue);
+				if (levelData[row][col] == 6) // GREY CLOUD/LAVA BLOCK
+				{
+					level[row][col].setSize(sf::Vector2f(32, 32));
+					level[row][col].setPosition(col * 32, row * 32);
+					level[row][col].setFillColor(sf::Color(200, 200, 200, 255));
 				}
 			}
 			std::cout << std::endl;
@@ -152,9 +184,7 @@ public:
 			sf::Event event;
 
 			while (window.pollEvent(event))
-
 			{
-
 				if (event.type == sf::Event::Closed)
 
 					window.close();
@@ -163,19 +193,35 @@ public:
 
 			timeSinceLastUpdate += clock.restart();
 
+			if (counterTurnCur > 0.0f)
+			{
+				counterTurnCur -= timeSinceLastUpdate.asSeconds();
+				std::cout << "CounterTurnCur: " << counterTurnCur << "\n\n";
+			}
+
 			if (timeSinceLastUpdate > timePerFrame)
 			{
-				for (int row = 0; row < numRows; row++)
+				if (!levelComplete)
 				{
-					for (int col = 0; col < numCols; col++)
+					for (int row = 0; row < numRows; row++)
 					{
-						level[row][col].move(-3.7, 0);
+						for (int col = 0; col < numCols; col++)
+						{
+							if (levelData[row][col] == 6)
+							{
+								level[row][col].move(moveXSpeed + cloudMoveSpeedX, moveYSpeed);
+							}
+							else
+							{
+								level[row][col].move(moveXSpeed, moveYSpeed);
+							}
+						}
 					}
 				}
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && velocityY == 0)
 				{
-					velocityY = -11.8;
+					velocityY = jumpVelocity;
 				}
 
 				velocityY = velocityY + gravity;
@@ -188,10 +234,62 @@ public:
 				{
 					for (int col = 0; col < numCols; col++)
 					{
-						// RED BLOCK --------------------------------------------
+						if (levelData[row][col] == 1)
+						{
+							for (int row2 = 0; row2 < numRows; row2++)
+							{
+								for (int col2 = 0; col2 < numCols; col2++)
+								{
+									if (levelData[row2][col2] == 6)
+									{
+										if (level[row][col].getGlobalBounds().intersects(level[row2][col2].getGlobalBounds()))
+										{
+											cloudMoveSpeedX *= -1;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				for (int row = 0; row < numRows; row++)
+				{
+					for (int col = 0; col < numCols; col++)
+					{
+						// GOLD BLOCK --------------------------------------------
+						if (levelData[row][col] == 3)
+						{// If player touches 3 block, mark level as complete.
+							if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
+							{
+								levelComplete = true;
+							}
+						}
+
+						// MAGENTA BLOCK --------------------------------------------
+						if (levelData[row][col] == 4)
+						{// If player touches 4 block, reverse level movement
+							if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()) && counterTurnCur <= 0.0f)
+							{
+								counterTurnCur = counterTurnMax;
+								moveXSpeed *= -1;
+							}
+						}
+
+						// CYAN BLOCK --------------------------------------------
+						if (levelData[row][col] == 5)
+						{// If player touches 5 block, launched into air
+							if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
+							{
+								velocityY = jumpVelocity * 1.5f;
+							}
+						}
+
+
+						// GREEN BLOCK AND OTHER FLOOR BLOCKS --------------------------------------------
 						if (velocityY >= 0) // Falling or y stationary
 						{
-							if (levelData[row][col] == 1)
+							if (levelData[row][col] == 1 || levelData[row][col] == 3 || levelData[row][col] == 4 || levelData[row][col] == 5)
 							{
 								if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
 								{// If intersecting a block marked 1
@@ -207,14 +305,33 @@ public:
 
 										break;
 									}
-
-									else {
-
+									else 
+									{
 										init();
 									}
 								}
 							}
+
+							if (levelData[row][col] == 6)
+							{
+								if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
+								{// If intersecting a cloud
+									if (playerShape.getPosition().y < level[row][col].getPosition().y)
+									{// If player Y position is above (<) the block
+										gravity = 0;
+
+										velocityY = 0;
+
+										playerShape.setPosition(playerShape.getPosition().x, level[row][col].getPosition().y); // Set player Y eq to block
+
+										playerShape.move(0, -playerShape.getGlobalBounds().height); // Move player above block
+
+										break;
+									}
+								}
+							}
 						}
+
 						// --------------------------------------------
 						if (velocityY < 0) // RISING!
 						{// If player is jumping up and touches red block (1), restart.
@@ -234,6 +351,8 @@ public:
 								init();
 							}
 						}
+
+						
 					}
 				}
 
@@ -243,7 +362,7 @@ public:
 					init();
 				}
 
-				window.clear();
+				window.clear(sf::Color(67, 130, 232));
 
 				for (int row = 0; row < numRows; row++)
 				{
@@ -253,7 +372,16 @@ public:
 					}
 				}
 
+				// window.draw(cloudShape);
+
+				window.draw(sunShape);
+
 				window.draw(playerShape);
+
+				if (levelComplete)
+				{
+					window.draw(textLevelComplete);
+				}
 
 				window.display();
 
@@ -266,6 +394,19 @@ public:
 int main()
 {
 	Game game;
+
+	if (!fontSilkScreen.loadFromFile("ASSETS\\FONTS\\slkscr.ttf"))
+	{
+		std::cout << "problem loading slkscr font" << std::endl;
+	}
+	textLevelComplete.setFont(fontSilkScreen);
+	textLevelComplete.setString("LEVEL COMPLETE");
+	textLevelComplete.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
+	textLevelComplete.setPosition(0.0f, SCREEN_HEIGHT * 0.25f); //  (SCREEN_WIDTH * 0.5f) - (textLevelComplete.getScale().x), SCREEN_HEIGHT * 0.5);
+	textLevelComplete.setCharacterSize(80U);
+	textLevelComplete.setOutlineColor(sf::Color::Red);
+	textLevelComplete.setFillColor(sf::Color::Black);
+	textLevelComplete.setOutlineThickness(3.0f);
 
 	game.init();
 
