@@ -1,0 +1,14 @@
+﻿  Game.cpp
+  main.cpp
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(38,46): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(161,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(161,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(170,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(170,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(179,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(179,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(220,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(226,1): warning C4305: '=': truncation from 'double' to 'float'
+C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\MoGraLab3OneButtonPractical\main.cpp(233,1): warning C4305: '=': truncation from 'double' to 'float'
+  Generating Code...
+  MoGraLab3OneButtonPractical.vcxproj -> C:\_MotionGraphics\MoGraphicsLab3OneButtonPractical\Debug\MoGraLab3OneButtonPractical.exe
