@@ -89,7 +89,7 @@ public:
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 	 };
 
-	sf::RectangleShape level[numRows][numCols];
+	sf::RectangleShape levelRects[numRows][numCols];
 
 	Game()
 	{
@@ -100,11 +100,9 @@ public:
 	{
 		moveXSpeed = moveXSpeedDefault;
 
-		view = window.getDefaultView();
-
 		playerShape.setSize(sf::Vector2f(20, 20));
 
-		playerShape.setPosition(SCREEN_WIDTH * 0.5f, 475.0f); //(160, 500);
+		playerShape.setPosition(SCREEN_WIDTH * 0.5f, 475.0f);
 
 		playerShape.setFillColor(sf::Color::Blue);
 
@@ -118,51 +116,51 @@ public:
 			{
 				if (levelData[row][col] == 1) // GREEN GROUND BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(32, 32));
-					level[row][col].setPosition(col * 32, row * 32);
-					level[row][col].setFillColor(sf::Color::Green);
+					levelRects[row][col].setSize(sf::Vector2f(32, 32));
+					levelRects[row][col].setPosition(col * 32, row * 32);
+					levelRects[row][col].setFillColor(sf::Color::Green);
 				}
 
 				if (levelData[row][col] == 0) // SKY EMPTY BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(32, 32));
-					level[row][col].setPosition(col * 32, row * 32);
-					level[row][col].setFillColor(sf::Color(67, 130, 232));
+					levelRects[row][col].setSize(sf::Vector2f(32, 32));
+					levelRects[row][col].setPosition(col * 32, row * 32);
+					levelRects[row][col].setFillColor(sf::Color(67, 130, 232));
 				}
 
 				if (levelData[row][col] == 2) // RED DEADLY BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(32, 32));
-					level[row][col].setPosition(col * 32, row * 32);
-					level[row][col].setFillColor(sf::Color::Red);
+					levelRects[row][col].setSize(sf::Vector2f(32, 32));
+					levelRects[row][col].setPosition(col * 32, row * 32);
+					levelRects[row][col].setFillColor(sf::Color::Red);
 				}
 
 				if (levelData[row][col] == 3) // GOLD GOAL BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(32, 32));
-					level[row][col].setPosition(col * 32, row * 32);
-					level[row][col].setFillColor(sf::Color::Yellow);
+					levelRects[row][col].setSize(sf::Vector2f(32, 32));
+					levelRects[row][col].setPosition(col * 32, row * 32);
+					levelRects[row][col].setFillColor(sf::Color::Yellow);
 				}
 
 				if (levelData[row][col] == 4) // MAGENTA REVERSE BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(32, 32));
-					level[row][col].setPosition(col * 32, row * 32);
-					level[row][col].setFillColor(sf::Color::Magenta);
+					levelRects[row][col].setSize(sf::Vector2f(32, 32));
+					levelRects[row][col].setPosition(col * 32, row * 32);
+					levelRects[row][col].setFillColor(sf::Color::Magenta);
 				}
 
 				if (levelData[row][col] == 5) // AQUA JUMP BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(32, 32));
-					level[row][col].setPosition(col * 32, row * 32);
-					level[row][col].setFillColor(sf::Color::Cyan);
+					levelRects[row][col].setSize(sf::Vector2f(32, 32));
+					levelRects[row][col].setPosition(col * 32, row * 32);
+					levelRects[row][col].setFillColor(sf::Color::Cyan);
 				}
 
 				if (levelData[row][col] == 6) // GREY CLOUD/LAVA BLOCK
 				{
-					level[row][col].setSize(sf::Vector2f(32, 32));
-					level[row][col].setPosition(col * 32, row * 32);
-					level[row][col].setFillColor(sf::Color(200, 200, 200, 255));
+					levelRects[row][col].setSize(sf::Vector2f(32, 32));
+					levelRects[row][col].setPosition(col * 32, row * 32);
+					levelRects[row][col].setFillColor(sf::Color(200, 200, 200, 255));
 				}
 			}
 			std::cout << std::endl;
@@ -209,11 +207,11 @@ public:
 						{
 							if (levelData[row][col] == 6)
 							{
-								level[row][col].move(moveXSpeed + cloudMoveSpeedX, moveYSpeed);
+								levelRects[row][col].move(moveXSpeed + cloudMoveSpeedX, moveYSpeed);
 							}
 							else
 							{
-								level[row][col].move(moveXSpeed, moveYSpeed);
+								levelRects[row][col].move(moveXSpeed, moveYSpeed);
 							}
 						}
 					}
@@ -221,7 +219,15 @@ public:
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && velocityY == 0)
 				{
-					velocityY = jumpVelocity;
+					if (levelComplete)
+					{
+						levelComplete = false;
+						init();
+					}
+					else
+					{
+						velocityY = jumpVelocity;
+					}
 				}
 
 				velocityY = velocityY + gravity;
@@ -234,6 +240,8 @@ public:
 				{
 					for (int col = 0; col < numCols; col++)
 					{
+
+						// CLOUD-GROUND COLLISION -------------------------------
 						if (levelData[row][col] == 1)
 						{
 							for (int row2 = 0; row2 < numRows; row2++)
@@ -242,7 +250,7 @@ public:
 								{
 									if (levelData[row2][col2] == 6)
 									{
-										if (level[row][col].getGlobalBounds().intersects(level[row2][col2].getGlobalBounds()))
+										if (levelRects[row][col].getGlobalBounds().intersects(levelRects[row2][col2].getGlobalBounds()))
 										{
 											cloudMoveSpeedX *= -1;
 										}
@@ -250,17 +258,11 @@ public:
 								}
 							}
 						}
-					}
-				}
 
-				for (int row = 0; row < numRows; row++)
-				{
-					for (int col = 0; col < numCols; col++)
-					{
 						// GOLD BLOCK --------------------------------------------
 						if (levelData[row][col] == 3)
 						{// If player touches 3 block, mark level as complete.
-							if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
+							if (playerShape.getGlobalBounds().intersects(levelRects[row][col].getGlobalBounds()))
 							{
 								levelComplete = true;
 							}
@@ -269,7 +271,7 @@ public:
 						// MAGENTA BLOCK --------------------------------------------
 						if (levelData[row][col] == 4)
 						{// If player touches 4 block, reverse level movement
-							if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()) && counterTurnCur <= 0.0f)
+							if (playerShape.getGlobalBounds().intersects(levelRects[row][col].getGlobalBounds()) && counterTurnCur <= 0.0f)
 							{
 								counterTurnCur = counterTurnMax;
 								moveXSpeed *= -1;
@@ -279,7 +281,7 @@ public:
 						// CYAN BLOCK --------------------------------------------
 						if (levelData[row][col] == 5)
 						{// If player touches 5 block, launched into air
-							if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
+							if (playerShape.getGlobalBounds().intersects(levelRects[row][col].getGlobalBounds()))
 							{
 								velocityY = jumpVelocity * 1.5f;
 							}
@@ -291,15 +293,15 @@ public:
 						{
 							if (levelData[row][col] == 1 || levelData[row][col] == 3 || levelData[row][col] == 4 || levelData[row][col] == 5)
 							{
-								if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
+								if (playerShape.getGlobalBounds().intersects(levelRects[row][col].getGlobalBounds()))
 								{// If intersecting a block marked 1
-									if (playerShape.getPosition().y < level[row][col].getPosition().y)
+									if (playerShape.getPosition().y < levelRects[row][col].getPosition().y)
 									{// If player Y position is above (<) the block
 										gravity = 0;
 
 										velocityY = 0;
 
-										playerShape.setPosition(playerShape.getPosition().x, level[row][col].getPosition().y); // Set player Y eq to block
+										playerShape.setPosition(playerShape.getPosition().x, levelRects[row][col].getPosition().y); // Set player Y eq to block
 
 										playerShape.move(0, -playerShape.getGlobalBounds().height); // Move player above block
 
@@ -314,15 +316,15 @@ public:
 
 							if (levelData[row][col] == 6)
 							{
-								if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
+								if (playerShape.getGlobalBounds().intersects(levelRects[row][col].getGlobalBounds()))
 								{// If intersecting a cloud
-									if (playerShape.getPosition().y < level[row][col].getPosition().y)
+									if (playerShape.getPosition().y < levelRects[row][col].getPosition().y)
 									{// If player Y position is above (<) the block
 										gravity = 0;
 
 										velocityY = 0;
 
-										playerShape.setPosition(playerShape.getPosition().x, level[row][col].getPosition().y); // Set player Y eq to block
+										playerShape.setPosition(playerShape.getPosition().x, levelRects[row][col].getPosition().y); // Set player Y eq to block
 
 										playerShape.move(0, -playerShape.getGlobalBounds().height); // Move player above block
 
@@ -346,7 +348,7 @@ public:
 						// BLUE BLOCK --------------------------------------------
 						if (levelData[row][col] == 2)
 						{// If player touches 2 block in any circumstances, restart
-							if (playerShape.getGlobalBounds().intersects(level[row][col].getGlobalBounds()))
+							if (playerShape.getGlobalBounds().intersects(levelRects[row][col].getGlobalBounds()))
 							{
 								init();
 							}
@@ -368,11 +370,17 @@ public:
 				{
 					for (int col = 0; col < numCols; col++)
 					{
-						window.draw(level[row][col]);
+						window.draw(levelRects[row][col]);
 					}
 				}
 
-				// window.draw(cloudShape);
+				for (int row = 0; row < numRows; row++)
+				{
+					for (int col = 0; col < numCols; col++)
+					{
+						if (levelData[row][col] == 6) window.draw(levelRects[row][col]);
+					}
+				}
 
 				window.draw(sunShape);
 
@@ -400,7 +408,7 @@ int main()
 		std::cout << "problem loading slkscr font" << std::endl;
 	}
 	textLevelComplete.setFont(fontSilkScreen);
-	textLevelComplete.setString("LEVEL COMPLETE");
+	textLevelComplete.setString("LEVEL COMPLETE!");
 	textLevelComplete.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
 	textLevelComplete.setPosition(0.0f, SCREEN_HEIGHT * 0.25f); //  (SCREEN_WIDTH * 0.5f) - (textLevelComplete.getScale().x), SCREEN_HEIGHT * 0.5);
 	textLevelComplete.setCharacterSize(80U);

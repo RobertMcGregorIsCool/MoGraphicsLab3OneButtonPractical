@@ -5,14 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{978ED1D2-14FF-4858-98D7-D9CACDE7A0D4}|MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical.vcxproj|C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{978ED1D2-14FF-4858-98D7-D9CACDE7A0D4}|MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical.vcxproj|solutionrelative:MoGraLab3OneButtonPractical\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{978ED1D2-14FF-4858-98D7-D9CACDE7A0D4}|MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical.vcxproj|C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{978ED1D2-14FF-4858-98D7-D9CACDE7A0D4}|MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical.vcxproj|solutionrelative:MoGraLab3OneButtonPractical\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{978ED1D2-14FF-4858-98D7-D9CACDE7A0D4}|MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical.vcxproj|C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{978ED1D2-14FF-4858-98D7-D9CACDE7A0D4}|MoGraLab3OneButtonPractical\\MoGraLab3OneButtonPractical.vcxproj|solutionrelative:MoGraLab3OneButtonPractical\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,17 +17,8 @@
           "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Game.h",
-              "DocumentMoniker": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\Game.h",
-              "RelativeDocumentMoniker": "MoGraLab3OneButtonPractical\\Game.h",
-              "ToolTip": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\Game.h",
-              "RelativeToolTip": "MoGraLab3OneButtonPractical\\Game.h",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAACMAAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-11T11:20:54.104Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Document",
@@ -43,25 +26,22 @@
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\main.cpp",
               "RelativeDocumentMoniker": "MoGraLab3OneButtonPractical\\main.cpp",
-              "ToolTip": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\main.cpp",
-              "RelativeToolTip": "MoGraLab3OneButtonPractical\\main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\main.cpp*",
+              "RelativeToolTip": "MoGraLab3OneButtonPractical\\main.cpp*",
+              "ViewState": "AgIAAGAAAAAAAAAAAAASwGIAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-11T11:18:31.811Z",
               "EditorCaption": ""
-            },
+            }
+          ]
+        },
+        {
+          "DockedWidth": 220,
+          "SelectedChildIndex": -1,
+          "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Game.cpp",
-              "DocumentMoniker": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\Game.cpp",
-              "RelativeDocumentMoniker": "MoGraLab3OneButtonPractical\\Game.cpp",
-              "ToolTip": "C:\\_MotionGraphics\\MoGraphicsLab3OneButtonPractical\\MoGraLab3OneButtonPractical\\Game.cpp",
-              "RelativeToolTip": "MoGraLab3OneButtonPractical\\Game.cpp",
-              "ViewState": "AgIAAGAAAAAAAAAAAADgv3AAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-11T11:18:29.033Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         }
